@@ -8,9 +8,39 @@
 
 #if os(Linux)
     import Glibc
+
+    func getRandom(max: Int) -> Int {
+        return Int(Double(random()) / Double(RAND_MAX) * Double(max))
+    }
 #else
     import Darwin.C
+
+    func getRandom(max: Int) -> Int {
+        return Int(arc4random_uniform(max))
+    }
 #endif
+
+extension UInt8 {
+    func hexString(padded padded:Bool = true) -> String {
+        let dict:[Character] = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
+        var result = ""
+
+        let c1 = Int(self >> 4)
+        let c2 = Int(self & 0xf)
+
+        if c1 == 0 && padded {
+            result.append(dict[c1])
+        } else if c1 > 0 {
+            result.append(dict[c1])
+        }
+        result.append(dict[c2])
+
+        if (result.characters.count == 0) {
+            return "0"
+        }
+        return result
+    }
+}
 
 /// UUID (Random class)
 public class UUID4: Equatable {
@@ -20,7 +50,7 @@ public class UUID4: Equatable {
     public init() {
         self.bytes = [UInt8](count: 16, repeatedValue: 0)
         for i in 0..<16 {
-            self.bytes[i] = UInt8(arc4random_uniform(256))
+            self.bytes[i] = UInt8(getRandom(256))
         }
         self.bytes[6] = self.bytes[6] & 0x0f + 0x40
         self.bytes[8] = self.bytes[8] & 0x3f + 0x80
