@@ -7,17 +7,9 @@
 //
 
 #if os(Linux)
-    import Glibc
-
-    func getRandom(max: Int) -> Int {
-        return Int(Double(random()) / Double(RAND_MAX) * Double(max))
-    }
+    import UnchainedGlibc
 #else
     import Darwin.C
-
-    func getRandom(max: Int) -> Int {
-        return Int(arc4random_uniform(max))
-    }
 #endif
 
 extension UInt8 {
@@ -50,7 +42,7 @@ public class UUID4: Equatable {
     public init() {
         self.bytes = [UInt8](count: 16, repeatedValue: 0)
         for i in 0..<16 {
-            self.bytes[i] = UInt8(getRandom(256))
+            self.bytes[i] = UInt8(arc4random_uniform(256))
         }
         self.bytes[6] = self.bytes[6] & 0x0f + 0x40
         self.bytes[8] = self.bytes[8] & 0x3f + 0x80

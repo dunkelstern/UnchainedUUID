@@ -9,5 +9,8 @@
 import PackageDescription
 
 let package = Package(
-    name: "UnchainedUUID"
+    name: "UnchainedUUID",
+    dependencies: [
+        .Package(url: "https://github.com/dunkelstern/UnchainedGlibc.git", majorVersion: 0)
+    ]
 )
