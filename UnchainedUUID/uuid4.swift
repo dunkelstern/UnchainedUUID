@@ -12,6 +12,8 @@
     import Darwin.C
 #endif
 
+import UnchainedString
+
 extension UInt8 {
     func hexString(padded padded:Bool = true) -> String {
         let dict:[Character] = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
@@ -66,7 +68,7 @@ public class UUID4: Equatable {
     /// - parameter string: string in default UUID representation
     public init?(string: String) {
         self.bytes = [UInt8](count: 16, repeatedValue: 0)
-        let components = string.componentsSeparatedByString("-")
+        let components = string.split("-")
         if components.count != 5 {
             return nil
         }

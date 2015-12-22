@@ -9,20 +9,19 @@
 import Foundation
 
 import XCTest
-@testable import twohundred
+@testable import UnchainedUUID
 
 class uuidTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var allTests : [(String, () -> Void)] {
+        return [
+            ("testUUIDFromString", testUUIDFromString),
+            ("testUUIDFromStringFail1", testUUIDFromStringFail1),
+            ("testUUIDFromStringFail2", testUUIDFromStringFail2),
+            ("testUUIDFromStringFail3", testUUIDFromStringFail3)
+        ]
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
+
     func testUUIDFromString() {
         let uuid = UUID4(string: "de305d54-75b4-431b-adb2-eb6b9e546014")
         XCTAssertNotNil(uuid)

@@ -10,7 +10,12 @@ import PackageDescription
 
 let package = Package(
     name: "UnchainedUUID",
+    targets: [
+        Target(name:"UnchainedUUIDTests", dependencies: [.Target(name: "UnchainedUUID")]),
+        Target(name:"UnchainedUUID")
+    ],
     dependencies: [
-        .Package(url: "https://github.com/dunkelstern/UnchainedGlibc.git", majorVersion: 0)
+		.Package(url: "https://github.com/dunkelstern/UnchainedGlibc.git", majorVersion: 0),
+		.Package(url: "https://github.com/dunkelstern/UnchainedString.git", majorVersion: 0)
     ]
 )
