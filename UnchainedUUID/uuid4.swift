@@ -39,7 +39,7 @@ extension UInt8 {
 /// UUID (Random class)
 public class UUID4: Equatable {
     private var bytes:[UInt8]!
-    
+
     /// Initialize random UUID
     public init() {
         self.bytes = [UInt8](count: 16, repeatedValue: 0)
@@ -49,7 +49,7 @@ public class UUID4: Equatable {
         self.bytes[6] = self.bytes[6] & 0x0f + 0x40
         self.bytes[8] = self.bytes[8] & 0x3f + 0x80
     }
-    
+
     /// Initialize UUID from bytes
     ///
     /// - parameter bytes: 16 bytes of UUID data
@@ -62,7 +62,7 @@ public class UUID4: Equatable {
         }
         self.bytes = bytes
     }
-    
+
     /// Initialize UUID from string
     ///
     /// - parameter string: string in default UUID representation
@@ -72,7 +72,7 @@ public class UUID4: Equatable {
         if components.count != 5 {
             return nil
         }
-        
+
         var byte = 0
         for comp in components {
             var characters = comp.characters
@@ -81,14 +81,14 @@ public class UUID4: Equatable {
                       let c2 = characters.popFirst() else {
                         return nil
                 }
-                
+
                 let c = UInt8("\(c1)\(c2)", radix: 16)!
-                
+
                 self.bytes[byte] = c
-                byte++
+                byte += 1
             }
         }
-        
+
         if byte != 16 {
             return nil
         }
@@ -109,7 +109,7 @@ public func ==(lhs: UUID4, rhs: UUID4) -> Bool {
 
 /// Printable UUID
 extension UUID4: CustomStringConvertible {
-    
+
     /// "Human readable" version of the UUID
     public var description: String {
         return "\(bytes[0].hexString())\(bytes[1].hexString())\(bytes[2].hexString())\(bytes[3].hexString())-\(bytes[4].hexString())\(bytes[5].hexString())-\(bytes[6].hexString())\(bytes[7].hexString())-\(bytes[8].hexString())\(bytes[9].hexString())-\(bytes[10].hexString())\(bytes[11].hexString())\(bytes[12].hexString())\(bytes[13].hexString())\(bytes[14].hexString())\(bytes[15].hexString())".uppercaseString
@@ -129,7 +129,7 @@ extension UUID4: Hashable {
         hash += Int(self.bytes[5] ^ self.bytes[13]) >> 40
         hash += Int(self.bytes[6] ^ self.bytes[14]) >> 48
         hash += Int(self.bytes[7] ^ self.bytes[15]) >> 56
-        
+
         return hash
     }
 }
