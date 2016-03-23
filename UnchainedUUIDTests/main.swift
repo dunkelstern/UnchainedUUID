@@ -8,5 +8,4 @@
 
 import XCTest
 
-print("Starting tests...")
-XCTMain([uuidTests()])
+XCTMain([testCase(uuidTests.allTests)])

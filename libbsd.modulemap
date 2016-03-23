@@ -1,0 +1,5 @@
+module BSD [system] {
+        header "/usr/include/bsd/bsd.h"
+        link "bsd"
+        export *
+}

@@ -7,7 +7,8 @@
 //
 
 #if os(Linux)
-    import UnchainedGlibc
+    import Glibc
+    import BSD
 #else
     import Darwin.C
 #endif
@@ -42,7 +43,7 @@ public class UUID4: Equatable {
 
     /// Initialize random UUID
     public init() {
-        self.bytes = [UInt8](count: 16, repeatedValue: 0)
+        self.bytes = [UInt8](repeating: 0, count: 16)
         for i in 0..<16 {
             self.bytes[i] = UInt8(arc4random_uniform(256))
         }
@@ -67,7 +68,7 @@ public class UUID4: Equatable {
     ///
     /// - parameter string: string in default UUID representation
     public init?(string: String) {
-        self.bytes = [UInt8](count: 16, repeatedValue: 0)
+        self.bytes = [UInt8](repeating: 0, count: 16)
         let components = string.split("-")
         if components.count != 5 {
             return nil
@@ -112,7 +113,7 @@ extension UUID4: CustomStringConvertible {
 
     /// "Human readable" version of the UUID
     public var description: String {
-        return "\(bytes[0].hexString())\(bytes[1].hexString())\(bytes[2].hexString())\(bytes[3].hexString())-\(bytes[4].hexString())\(bytes[5].hexString())-\(bytes[6].hexString())\(bytes[7].hexString())-\(bytes[8].hexString())\(bytes[9].hexString())-\(bytes[10].hexString())\(bytes[11].hexString())\(bytes[12].hexString())\(bytes[13].hexString())\(bytes[14].hexString())\(bytes[15].hexString())".uppercaseString
+        return "\(bytes[0].hexString())\(bytes[1].hexString())\(bytes[2].hexString())\(bytes[3].hexString())-\(bytes[4].hexString())\(bytes[5].hexString())-\(bytes[6].hexString())\(bytes[7].hexString())-\(bytes[8].hexString())\(bytes[9].hexString())-\(bytes[10].hexString())\(bytes[11].hexString())\(bytes[12].hexString())\(bytes[13].hexString())\(bytes[14].hexString())\(bytes[15].hexString())".uppercased()
     }
 }
 

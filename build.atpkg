@@ -1,0 +1,47 @@
+(package
+  :name "UnchainedUUID"
+  
+  :external-packages [
+    {
+      :url "https://github.com/dunkelstern/UnchainedString.git"
+      :version [ ">=1.0.0" ]
+    }
+  ]
+
+
+  :tasks {
+    :default {
+      :tool "atllbuild"
+      :sources ["UnchainedUUID/**.swift"]
+      :name "UnchainedUUID"
+      :output-type "static-library"
+      :publish-product true
+      :dependencies ["UnchainedString.default"]
+      :link-with ["UnchainedString.a"]
+      :compile-options ["-enable-testing" "-Xcc" "-D_GNU_SOURCE" "-Xcc" "-fmodule-map-file=libbsd.modulemap"]
+    }
+
+    :build-tests {
+      :tool "atllbuild"
+      :dependencies ["default"]
+      :sources ["UnchainedUUIDTests/**.swift"]
+      :name "tests"
+      :output-type "executable"
+      :link-with ["UnchainedUUID.a" "UnchainedString.a"]
+      :compile-options ["-Xcc" "-fmodule-map-file=libbsd.modulemap"]
+      :xctestify true
+      :xctest-strict true
+    }
+
+    :run-tests {
+      :tool "xctestrun"
+      :dependencies ["build-tests"]
+      :test-executable ".atllbuild/products/tests"
+    }
+
+    :check {
+      :dependencies ["run-tests"]
+      :tool "nop"
+    }
+  }
+)

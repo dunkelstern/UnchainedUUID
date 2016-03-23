@@ -1,2 +1,6 @@
 .build
 Packages/
+.atllbuild/
+UnchainedUUID.sublime-workspace
+bin/
+external/
